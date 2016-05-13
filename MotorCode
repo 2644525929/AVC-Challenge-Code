@@ -8,21 +8,14 @@ extern "C" char get_pixel(int row, int col, int colour);
 extern "C" take_picture();
 
 int main (){
-
-init (1);
-int rightMotorSpeed = 0;
-int leftMotorSpeed = 0;
-int sum = 0;
-v_right = 100;
-v_left = 100;
-int whiteValue;
-int s;                  // Yet to use this value.
+init (0);
+int whiteValue=0;
 int whiteOrBlack[15];   // White = 1, Black = 0
 while(ture){
 take_picture();
 int open_screen_stream();
-
-for(int i = 0; i < 16; i++){
+int i;
+for(i = 0; i < 16; i++){
 whiteValue = get_pixel(i*20, 120, 3);
 if(whiteValue > 127){
 whiteOrBlack[i] = 1;
@@ -31,20 +24,20 @@ else{
 whiteOrBlack[i] = 0;
 }
 }
-for(int i=0;i<15;i++){
-if( (whiteOrBlack[i]==0) && (whiteOrBlack[i+1]==1) ){
-int startOfWhite = i;
+for(int n=0;n<15;n++){
+if( (whiteOrBlack[n]==0) && (whiteOrBlack[n+1]==1) ){
+int startOfWhite = n;
 }
 
-if( (whiteOrBlack[i] == 1) && (whiteOrBlack[i + 1] == 0) ){ 
-int endOfWhite = i;
+if( (whiteOrBlack[n] == 1) && (whiteOrBlack[n + 1] == 0) ){ 
+int endOfWhite = n;
 }
 }
 float centerofWhite = (startOfWhite + endOfWhite)/2;
 float errorValue = centerOfWhite - 7.5;
 
-int rightMotorSpeed = 15 + errorValue;
-int leftMotorSpeed = 15 - errorValue;
+float rightMotorSpeed = 15 + errorValue;
+float leftMotorSpeed = 15 - errorValue;
 
 set_motor(1, leftMotorSpeed);
 set_motor(2, rightMotorSpeed);
